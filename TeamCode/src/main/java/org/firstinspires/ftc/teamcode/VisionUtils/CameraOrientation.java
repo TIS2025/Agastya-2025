@@ -9,4 +9,9 @@ public enum CameraOrientation {
 
     public int getOrientation(){return x;}
 
+
+
+
+
+
 }
