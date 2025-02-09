@@ -8,10 +8,4 @@ public enum CameraOrientation {
     CameraOrientation(int x){this.x = x;}
 
     public int getOrientation(){return x;}
-
-
-
-
-
-
 }
