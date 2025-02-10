@@ -132,7 +132,7 @@ public class Shoulder {
 
     public static void elevatorIncrement(int increment) {
         int newPosition = robot.shoulder.getCurrentPosition() + increment;
-        if (newPosition >= Globals.upMax) {
+        if (newPosition <= Globals.upMax) {
             extendTo(newPosition,1);
         }
     }

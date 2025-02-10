@@ -13,7 +13,10 @@ public class SpecDropSeq {
     public SpecDropSeq(IntakeSubsystem intake, Shoulder shoulder, Elbow elbow) {
         Actions.runBlocking(
                 new SequentialAction(
-                        intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.OFF),
+//                        intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.OFF),
+//                        intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.INIT),
+//                        new SleepAction(0.1),
+
                         intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.CLOSE),
                         new SleepAction(0.4),
                         new ParallelAction(

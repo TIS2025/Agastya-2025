@@ -20,7 +20,10 @@ public class SpecimenDropSeq {
 //                        elbow.ElbowCommand(Elbow.ElbowState.AFTER_DROP)
 //                ),
 //                new SleepAction(0.5),
-                intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.OPEN)
+                elbow.ElbowCommand(Elbow.ElbowState.AFTER_DROP),
+                new SleepAction(0.2),
+                intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.OPEN),
+                elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
 //                new ParallelAction(
 //                shoulder.ShoulderCommand(Shoulder.ShoulderState.SPECI_PICK),
 //                elbow.ElbowCommand(Elbow.ElbowState.SPECI_PICK)

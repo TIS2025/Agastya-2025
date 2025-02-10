@@ -199,7 +199,16 @@ public class Teleop extends LinearOpMode {
             }
 
             if (currentGamepad1.back && !previousGamepad1.back) {
-                Globals.PID = !Globals.PID; // Toggle the value of PID
+                Globals.SpecimenMode = !Globals.SpecimenMode; // Toggle the value of Specimen
+            }
+
+            // TODO =============================================== OPERATOR===========================================================
+
+            if (gamepad2.right_trigger > 0.5) {
+                Shoulder.elevatorIncrement(30);
+            }
+            if (gamepad2.left_trigger > 0.5) {
+                Shoulder.elevatorDecrement(30);
             }
 
 
@@ -217,36 +226,39 @@ public class Teleop extends LinearOpMode {
 
             // TODO ===============================================Field Oriented Drive  ===========================================================
 
-//            if (gamepad1.right_stick_button) {
-//                drive.lazyImu.get().resetYaw();
-//                drive.navxMicro.initialize();
-//                botHeading = drive.pose.heading.toDouble();
-//            }
-//
-//            if (gamepad1.left_trigger > 0) {
-//                multiplier = 0.78;
-//                drive.driveFieldCentric(Math.pow(Range.clip(-gamepad1.left_stick_x*strafe*multiplier,-1,1),3),
-//                        Math.pow(Range.clip(-gamepad1.left_stick_y*speed*multiplier,-1,1),3),
-//                        Math.pow(Range.clip(gamepad1.right_stick_x*turn*multiplier,-1,1),3),
-//                        botHeading);
-//            } else {
-//                multiplier=1;
-//                drive.driveFieldCentric(Math.pow(Range.clip(-gamepad1.left_stick_x*strafe*multiplier,-1,1),3),
-//                        Math.pow(Range.clip(-gamepad1.left_stick_y*speed*multiplier,-1,1),3),
-//                        Math.pow(Range.clip(gamepad1.right_stick_x*turn*multiplier,-1,1),3),
-//                        botHeading);
-//            }
-//            drive.updatePoseEstimate();
+            if (gamepad1.right_stick_button) {
+                drive.lazyImu.get().resetYaw();
+                drive.navxMicro.initialize();
+                botHeading = drive.pose.heading.toDouble();
+            }
+            if (gamepad1.left_trigger > 0 && Globals.SpecimenMode) {
+                multiplier = 0.78;
+                drive.driveFieldCentric(Math.pow(Range.clip(-gamepad1.left_stick_x*strafe*multiplier,-1,1),3),
+                        Math.pow(Range.clip(-gamepad1.left_stick_y*speed*multiplier,-1,1),3),
+                        Math.pow(Range.clip(gamepad1.right_stick_x*turn*multiplier,-1,1),3),
+                        botHeading);
+            }
+            if (Globals.SpecimenMode) {
+                multiplier=1;
+                drive.driveFieldCentric(Math.pow(Range.clip(-gamepad1.left_stick_x*strafe*multiplier,-1,1),3),
+                        Math.pow(Range.clip(-gamepad1.left_stick_y*speed*multiplier,-1,1),3),
+                        Math.pow(Range.clip(gamepad1.right_stick_x*turn*multiplier,-1,1),3),
+                        botHeading);
+            }
+            drive.updatePoseEstimate();
 
             // Todo ==================================== Robot Oriented ======================================================================
-            drive.setDrivePowers(
-                    new PoseVelocity2d(
-                            new Vector2d(Math.pow(Range.clip(-gamepad1.left_stick_y * speed, -1, 1), 3),
-                                    Math.pow(Range.clip(-gamepad1.left_stick_x * strafe, -1, 1), 3)),
-                            Math.pow(Range.clip(-gamepad1.right_stick_x * turn, -1, 1), 3))
-            );
 
-            if (gamepad1.left_trigger > 0.3 || slowFlag) {
+            if(!Globals.SpecimenMode) {
+                drive.setDrivePowers(
+                        new PoseVelocity2d(
+                                new Vector2d(Math.pow(Range.clip(-gamepad1.left_stick_y * speed, -1, 1), 3),
+                                        Math.pow(Range.clip(-gamepad1.left_stick_x * strafe, -1, 1), 3)),
+                                Math.pow(Range.clip(-gamepad1.right_stick_x * turn, -1, 1), 3))
+                );
+            }
+
+            if (gamepad1.left_trigger > 0.3 || slowFlag && !Globals.SpecimenMode ) {
                 drive.setDrivePowers(
                         new PoseVelocity2d(
                                 new Vector2d(Math.pow(Range.clip(-gamepad1.left_stick_y * speed, -1, 1), 3),
@@ -269,7 +281,7 @@ public class Teleop extends LinearOpMode {
 
 //            telemetry.addData("Power",Shoulder.power+Shoulder.ff);
             telemetry.addData("Kp", Shoulder.multiplier*Shoulder.kp);
-            telemetry.addData("PID", Globals.PID);
+            telemetry.addData("PID", Globals.SpecimenMode);
             telemetry.addData("Shoulder Current : ", robot.shoulder.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Elbow Current : ", robot.elbow.getCurrent(CurrentUnit.AMPS));
 

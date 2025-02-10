@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.auto_sequence;//package org.firstinspires.ftc.teamcode.sequences;
 
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 import org.firstinspires.ftc.teamcode.subsystem.Elbow;
@@ -18,8 +19,10 @@ public class SpecAfterDropSeq {
 //                                elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
 //                        ),
 //                        new SleepAction(0.5),
-                        intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.OPEN)
-//                elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
+                        elbow.ElbowCommand(Elbow.ElbowState.AFTER_DROP),
+                        new SleepAction(0.2),
+                        intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.OPEN),
+                        elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
                 ));
     }
 

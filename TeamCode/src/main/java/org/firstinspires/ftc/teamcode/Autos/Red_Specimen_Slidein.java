@@ -110,7 +110,7 @@ public class Red_Specimen_Slidein extends LinearOpMode {
                 .splineToLinearHeading((new Pose2d(58, -14, Math.toRadians(270))),Math.toRadians(0))
                 .stopAndAdd(() -> new SpecPickSeq(intake, shoulder,elbow))
                 .strafeToConstantHeading(new Vector2d(58,-40))
-                .waitSeconds(0.5)
+                .waitSeconds(0.2)
 //                .strafeToLinearHeading(new Vector2d(50,-45), Math.toRadians(270))
 
                 //todo slide 3rd sample
@@ -123,7 +123,7 @@ public class Red_Specimen_Slidein extends LinearOpMode {
 //                .stopAndAdd(() -> new SpecInitSeq(intake, shoulder,elbow))
 ////
 ////             //TODO Specimen 1 Pick and Drop
-                .strafeToLinearHeading(new Vector2d(58, -60), Math.toRadians(270),baseVelConstraint)
+                .strafeToLinearHeading(new Vector2d(58, -59), Math.toRadians(270),baseVelConstraint)
 
 ////                .setReversed(true)
 //                .splineToLinearHeading((new Pose2d(58, -48, Math.toRadians(270))),Math.toRadians(270))
@@ -136,9 +136,9 @@ public class Red_Specimen_Slidein extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(4,-35), Math.toRadians(90))
 
                 //TODO Specimen 2 Pick and Drop
-                .strafeToLinearHeading(new Vector2d(38, -45), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(38, -40), Math.toRadians(270))
                 .stopAndAdd(() -> new SpecPickSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(38, -60), Math.toRadians(270),baseVelConstraint)
+                .strafeToLinearHeading(new Vector2d(38, -59), Math.toRadians(270),baseVelConstraint)
 
                 .stopAndAdd(() -> new SpecDropSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(0,-35), Math.toRadians(90))
@@ -146,12 +146,14 @@ public class Red_Specimen_Slidein extends LinearOpMode {
                 //TODO Drop
                 .waitSeconds(0.2)
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(0,-38), Math.toRadians(90))
-
-//                .waitSeconds()
+                .strafeToLinearHeading(new Vector2d(0,-35), Math.toRadians(90))
+//                .stopAndAdd(() -> new SpecInitSeq(intake, shoulder,elbow))
 
                 //TODO Parking
-                .strafeToLinearHeading(new Vector2d(10, -60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(38, -58), Math.toRadians(270))
+//
+//                //TODO Parking
+//                .strafeToLinearHeading(new Vector2d(10, -60), Math.toRadians(90))
 
 
 

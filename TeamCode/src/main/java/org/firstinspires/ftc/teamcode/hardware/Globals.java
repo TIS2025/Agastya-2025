@@ -10,7 +10,7 @@ public class Globals {
 
 
     //TODO======================================================== INTAKE SHOULDER ====================================================
-    public static boolean PID = false;
+    public static boolean SpecimenMode = false;
     public static int shoulderincVal = 10;
     public static int shoulderInit = 0;
     public static int shoulderDrop = 1150;
@@ -18,7 +18,7 @@ public class Globals {
     public static int shoulderIntake = 320;
     public static int shoulderSafe = 15;
     public static int specimenPick =250;// 0;
-    public static int specimenPreDrop =680;//660;
+    public static int specimenPreDrop =670;//660;
     public static int lowChamber = 0;
     public static int highChamber = 300;
     public static int afterDrop = 50;//400
@@ -42,7 +42,7 @@ public class Globals {
     public static int elbowSpeciPick = 450;//370
     public static int elbowSpeciPreDrop = -100;//450;
     public static int elbowSpeciDrop = 450;
-    public static int elbowAfterDrop = 500;
+    public static int elbowAfterDrop = 458;//500;
     public static int elbowHighHangDone = -600;
     public static int elbowPreHang = 700;
     public static int elbowHang = 0;
@@ -57,7 +57,7 @@ public class Globals {
 
     //TODO======================================================== INTAKE GRIPPER ====================================================
 
-    public static double GRIP_INIT=1;
+    public static double GRIP_INIT=0.5;
     public static double GRIP_OPEN=0.9;
     public static double GRIP_CLOSE=0.45;
 

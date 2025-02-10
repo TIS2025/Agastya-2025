@@ -139,7 +139,7 @@ public class Elbow {
 
     public static void elevatorIncrement(int increment) {
         int newPosition = robot.elbow.getCurrentPosition() + increment;
-        if (newPosition >= Globals.elbowMax) {
+        if (newPosition <= Globals.elbowMax) {
             extendTo(newPosition);
         }
     }
