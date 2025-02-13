@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -32,7 +33,8 @@ import java.util.Arrays;
 
 @Config
 @Autonomous(name="Red Sample 2+3")
-//@Deprecated
+@Disabled
+@Deprecated
 public class Red_Sample extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
     //Subsystems

@@ -7,7 +7,8 @@ public class Globals {
 
 
    public static boolean Is_Thread=false;
-
+ public static double gain = 50.0;
+ public static int intakeItem = 0;
 
     //TODO======================================================== INTAKE SHOULDER ====================================================
     public static boolean SpecimenMode = false;
@@ -34,15 +35,15 @@ public class Globals {
     public static int elbowincVal = 30;
     public static int elbowHome = 0;
     public static int elbowInit = 0;
-    public static int elbowSafe = 150;
-    public static int elbowExtendHighBucket = 150;//100
+    public static int elbowSafe = 200;
+    public static int elbowExtendHighBucket = 200;//100
     public static int elbowExtendSamplePick = 1600;
     public static int elbowExtendSamplePrePick = 1200;//1200
     public static int elbowHighHang = -2500;
     public static int elbowSpeciPick = 450;//370
     public static int elbowSpeciPreDrop = -100;//450;
     public static int elbowSpeciDrop = 450;
-    public static int elbowAfterDrop = 458;//500;
+    public static int elbowAfterDrop = 200;//455;//500;
     public static int elbowHighHangDone = -600;
     public static int elbowPreHang = 700;
     public static int elbowHang = 0;

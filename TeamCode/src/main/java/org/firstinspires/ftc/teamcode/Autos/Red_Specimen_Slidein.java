@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.Arrays;
 
 @Config
-@Autonomous(name="Red Specimen Slidein 1+3")
+@Autonomous(name="Red Specimen Slidein 1+2")
 //@Deprecated
 public class Red_Specimen_Slidein extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();

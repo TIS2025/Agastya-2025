@@ -12,7 +12,6 @@ public class SamplePickSeq {
     public SamplePickSeq(IntakeSubsystem intake, Elbow elbow, Shoulder shoulder) {
         Actions.runBlocking(
                 new SequentialAction(
-                        intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.INIT),
                         intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.ON),
                         new ParallelAction(
                                 shoulder.ShoulderCommand(Shoulder.ShoulderState.INTAKE),

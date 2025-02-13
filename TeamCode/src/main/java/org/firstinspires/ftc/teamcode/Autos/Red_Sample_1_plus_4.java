@@ -21,10 +21,9 @@ import org.firstinspires.ftc.teamcode.Sequence.InitSeq;
 import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.auto_sequence.ParkSeq;
 import org.firstinspires.ftc.teamcode.auto_sequence.PreSampleDropSeq;
+import org.firstinspires.ftc.teamcode.auto_sequence.PreSamplePickSeq;
 import org.firstinspires.ftc.teamcode.auto_sequence.SampleDropSeq;
 import org.firstinspires.ftc.teamcode.auto_sequence.SamplePickSeq;
-import org.firstinspires.ftc.teamcode.auto_sequence.SpecInitSeq;
-import org.firstinspires.ftc.teamcode.auto_sequence.SpecPickSeq;
 import org.firstinspires.ftc.teamcode.hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.subsystem.Elbow;
 import org.firstinspires.ftc.teamcode.subsystem.IntakeSubsystem;
@@ -33,9 +32,9 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.Arrays;
 
 @Config
-@Autonomous(name="Red Sample 1+3 🔴")
+@Autonomous(name="Red Sample 1+4")
 //@Deprecated
-public class Red_Sample_Safe extends LinearOpMode {
+public class Red_Sample_1_plus_4 extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
     //Subsystems
     IntakeSubsystem intake ;
@@ -80,12 +79,12 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .waitSeconds(0.4)
 
                 //TODO Sample 1 Pick
-                                    //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
+                //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
                 .strafeToLinearHeading(new Vector2d(-18,-34), Math.toRadians(165))
-                                    //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
+                //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
 //                .waitSeconds(0.4)
-                                    //.stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
+                //.stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
 //                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
 
                 .strafeToLinearHeading(new Vector2d(-24,-34), Math.toRadians(163),baseVelConstraint)
@@ -94,15 +93,15 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45))
 
-                .strafeToLinearHeading(new Vector2d(-55,-53), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45))
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
                 .waitSeconds(0.4)
 
                 //TODO Sample 2 Pick
-                                    //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
+                //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
                 .strafeToLinearHeading(new Vector2d(-29,-35), Math.toRadians(162))
-                                    //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
+                //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
 //                .waitSeconds(0.5)
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
                 .strafeToLinearHeading(new Vector2d(-34,-34), Math.toRadians(165),baseVelConstraint)
@@ -114,10 +113,10 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .waitSeconds(0.4)
 
                 //TODO Sample 3 Pick
-                                     //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
+                //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
                 .strafeToLinearHeading(new Vector2d(-38,-35), Math.toRadians(162))
-                                      //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
+                //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
 //                .waitSeconds(0.5)
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
                 .strafeToLinearHeading(new Vector2d(-42,-34), Math.toRadians(165),baseVelConstraint)
@@ -126,11 +125,30 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-52,-51), Math.toRadians(45))
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4 )
-                .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
+                .waitSeconds(0.4)
+                .strafeToLinearHeading(new Vector2d(-50,-45), Math.toRadians(45))
 
-                //TODO Parking
+                .stopAndAdd(() ->new PreSamplePickSeq(intake,shoulder,elbow))
+
+                //TODO Parking//Pick from Submersible
+                .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
+                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
+                .strafeToLinearHeading(new Vector2d(-28,-5), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-24,-5.001), Math.toRadians(0))
+                .stopAndAdd(() ->new PreSamplePickSeq(intake,shoulder,elbow))
+                .strafeToLinearHeading(new Vector2d(-48,-5), Math.toRadians(0))
+                .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
+                .strafeToLinearHeading(new Vector2d(-54,-53), Math.toRadians(45))
+                .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
+                .waitSeconds(0.4 )
                 .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
+
+
+
+
+
+
+
 
         if (opModeInInit()) {
             telemetry.addLine("ROBOT INIT MODE");

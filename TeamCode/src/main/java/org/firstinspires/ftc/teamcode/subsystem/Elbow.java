@@ -65,15 +65,15 @@ public class Elbow {
             case INIT:
                 extendTo(Globals.elbowInit);
                 break;
-
+            case SAFE:
+                extendTo(Globals.elbowSafe);
+                break;
             case HIGH_BUCKET:
                 extendTo(Globals.elbowExtendHighBucket);
                 break;
-
             case SAMPLE_PICK:
                 extendTo(Globals.elbowExtendSamplePick);
                 break;
-
             case SAMPLE_PRE_PICK:
                 extendTo(Globals.elbowExtendSamplePrePick);
                 break;

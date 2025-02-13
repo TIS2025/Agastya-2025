@@ -12,6 +12,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -27,6 +28,8 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.Arrays;
 
 @Config
+@Disabled
+@Deprecated
 @Autonomous(name="Red Specimen 1+3")
 //@Deprecated
 public class Red_Specimen_Safe extends LinearOpMode {

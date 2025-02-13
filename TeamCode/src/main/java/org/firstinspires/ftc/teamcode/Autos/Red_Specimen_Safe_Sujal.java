@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -30,7 +31,8 @@ import java.util.Arrays;
 
 @Config
 @Autonomous(name="Red Specimen Sujal 1+3")
-//@Deprecated
+@Disabled
+@Deprecated
 public class Red_Specimen_Safe_Sujal extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
     //Subsystems
