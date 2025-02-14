@@ -36,7 +36,7 @@ public class Globals {
     public static int elbowHome = 0;
     public static int elbowInit = 0;
     public static int elbowSafe = 200;
-    public static int elbowExtendHighBucket = 200;//100
+    public static int elbowExtendHighBucket = 100;//200
     public static int elbowExtendSamplePick = 1600;
     public static int elbowExtendSamplePrePick = 1200;//1200
     public static int elbowHighHang = -2500;
@@ -58,12 +58,12 @@ public class Globals {
 
     //TODO======================================================== INTAKE GRIPPER ====================================================
 
-    public static double GRIP_INIT=0.5;
-    public static double GRIP_OPEN=0.9;
-    public static double GRIP_CLOSE=0.45;
+    public static double GRIP_INIT=0.8;
+    public static double GRIP_OPEN=0.75;
+    public static double GRIP_CLOSE=0.38;
 
 
-    public static double incr = 0;
+    public static double incr = 0.01;
 
     //TODO======================================================== PID STATES ====================================================
 

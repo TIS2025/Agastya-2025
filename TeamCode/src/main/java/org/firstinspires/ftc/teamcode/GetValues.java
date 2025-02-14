@@ -180,7 +180,7 @@ public class GetValues extends LinearOpMode {
 
             telemetry.addLine("---------------------------");
 
-            telemetry.addData(" Shoulder Error : ",  robot.specimenGripper.getPosition());
+            telemetry.addData(" Specimen Gripper : ",  robot.specimenGripper.getPosition());
 
 
             telemetry.addData("x", drive.pose.position.x);

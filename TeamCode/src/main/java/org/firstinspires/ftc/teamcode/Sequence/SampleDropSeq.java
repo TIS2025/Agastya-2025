@@ -17,7 +17,7 @@ public class SampleDropSeq {
 //                elbow.ElbowCommand(Elbow.ElbowState.PRE_HANG),//800//EDIT BY DEVA TO GET SHOULDER IN MID POSE IN BETWEEN
 //                new SleepAction(0.8),
                 shoulder.ShoulderCommand(Shoulder.ShoulderState.DROP),//1200
-                new SleepAction(0.5),
+                new SleepAction(0.4),
                 elbow.ElbowCommand(Elbow.ElbowState.HIGH_BUCKET)//200
 //                new SleepAction(3),
 //                intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.ON)

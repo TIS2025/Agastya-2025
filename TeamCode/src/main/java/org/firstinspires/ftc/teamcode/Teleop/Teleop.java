@@ -92,8 +92,10 @@ public class Teleop extends LinearOpMode {
 //
 //                if(//errror <3){
 //            }
-//        });
+//        });.
 
+
+        // TODO =============================================== INIT===========================================================
         while (opModeInInit()) {
           shoulder.extendTo(0,1);
           elbow.extendTo(0);
@@ -115,32 +117,10 @@ public class Teleop extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            // TODO =============================================== INIT===========================================================
-
-
-            // TODO =============================================== SAMPLE PRE DROP ===========================================================
+            // TODO =============================================== SAMPLE PRE PICK ===========================================================
             if (gamepad1.a) {
                 runningActions.add(SamplePickSeq.PreSamplePickAction(intake, elbow, shoulder));
             }
-
-            /////////////////////////////////////////////////////////
-////            else
-////            {
-////                slowFlag = false;
-////            }
-//
-//            if(slowFlag) {
-//
-//
-//                //if (Elbow.controller.getPositionError()<5 && Shoulder.controller.getPositionError()<5 ){
-////                    counter++;
-////                    if (counter==50) {
-//                slowFlag = false;
-////                        counter=0;
-////                    }
-////            }
-//            }
-            /////////////////////////////////////////////////////////////////
 
             // TODO =============================================== SAMPLE PICK ===========================================================
             if (gamepad1.x) {

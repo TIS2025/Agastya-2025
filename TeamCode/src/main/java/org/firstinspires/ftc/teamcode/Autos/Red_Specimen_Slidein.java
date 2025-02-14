@@ -109,8 +109,10 @@ public class Red_Specimen_Slidein extends LinearOpMode {
                 //todo slide 2nd sample
                 .splineToLinearHeading((new Pose2d(58, -14, Math.toRadians(270))),Math.toRadians(0))
                 .stopAndAdd(() -> new SpecPickSeq(intake, shoulder,elbow))
-                .strafeToConstantHeading(new Vector2d(58,-40))
-                .waitSeconds(0.2)
+//                .strafeToConstantHeading(new Vector2d(58,-40))
+//                .waitSeconds(0.2)
+
+
 //                .strafeToLinearHeading(new Vector2d(50,-45), Math.toRadians(270))
 
                 //todo slide 3rd sample
@@ -146,8 +148,9 @@ public class Red_Specimen_Slidein extends LinearOpMode {
                 //TODO Drop
                 .waitSeconds(0.2)
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(0,-35), Math.toRadians(90))
-//                .stopAndAdd(() -> new SpecInitSeq(intake, shoulder,elbow))
+
+                .strafeToLinearHeading(new Vector2d(0,-40), Math.toRadians(90))
+                .stopAndAdd(() -> new SpecInitSeq(intake, shoulder,elbow))
 
                 //TODO Parking
                 .strafeToLinearHeading(new Vector2d(38, -58), Math.toRadians(270))

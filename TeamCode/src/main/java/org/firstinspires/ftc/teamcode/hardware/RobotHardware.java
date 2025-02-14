@@ -25,9 +25,7 @@ public class RobotHardware {
 
     public RevColorSensorV3 colorSensor=null;
 
-
-    // Static instance to be used across all instances
-    private static RobotHardware instance;
+    private static RobotHardware instance;// Static instance to be used across all instances
     public boolean enabled;
     private HardwareMap hardwareMap;  // Linking to hardware map with robot hardware.
 
@@ -51,23 +49,20 @@ public class RobotHardware {
         elbow = hardwareMap.get(DcMotorEx.class, "elbow");
         specimenGripper=hardwareMap.get(Servo.class,"grip");
 
-//        shoulderEncoder = hardwareMap.get(DcMotorEx.class, "rightFront");
-
-
-//
-//        //TODO============================= MAPPING SENSORS ===============================
+        //TODO============================= MAPPING SENSORS ===============================
         colorSensor=hardwareMap.get(RevColorSensorV3.class,"color");
 
         //TODO============================= OTHER INITIALIZATION ===============================
-//
         shoulder.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         elbow.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-//        shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shoulder.setDirection(DcMotorSimple.Direction.FORWARD);
         elbow.setDirection(DcMotorSimple.Direction.FORWARD);
         shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+//        shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Add any other initialization code here if needed.
     }

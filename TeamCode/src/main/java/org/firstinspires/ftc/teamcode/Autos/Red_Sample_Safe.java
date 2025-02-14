@@ -51,7 +51,12 @@ public class Red_Sample_Safe extends LinearOpMode {
     //TODO TESTING PROFILE ACCELERATION
     VelConstraint baseVelConstraint = new MinVelConstraint(Arrays.asList(
             new TranslationalVelConstraint(30.0),
-            new AngularVelConstraint(Math.PI / 4)
+            new AngularVelConstraint(Math.PI / 2)
+    ));
+
+    VelConstraint baseVelConstraint50 = new MinVelConstraint(Arrays.asList(
+            new TranslationalVelConstraint(50.0),
+            new AngularVelConstraint(Math.PI / 2)
     ));
 
 
@@ -77,7 +82,7 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45))
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
+                .waitSeconds(0.6)
 
                 //TODO Sample 1 Pick
                                     //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
@@ -86,17 +91,17 @@ public class Red_Sample_Safe extends LinearOpMode {
                                     //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
 //                .waitSeconds(0.4)
                                     //.stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
-//                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
+                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
 
                 .strafeToLinearHeading(new Vector2d(-24,-34), Math.toRadians(163),baseVelConstraint)
                 .waitSeconds(0.2)  //0.3 seconds
                 //TODO Sample 1 Drop
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45),baseVelConstraint50)
 
-                .strafeToLinearHeading(new Vector2d(-55,-53), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-55,-53), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
+                .waitSeconds(0.6)
 
                 //TODO Sample 2 Pick
                                     //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
@@ -109,9 +114,13 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .waitSeconds(0.2)  //0.3 seconds
                 //TODO Sample 2 Drop
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-53,-51), Math.toRadians(45))
+
+                //TODO ALIGN BASKET BEFORE DROPING AND THEN TAKING BOT TOWARDS BASKET   //
+                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45),baseVelConstraint50) //
+
+                .strafeToLinearHeading(new Vector2d(-53,-53), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
+                .waitSeconds(0.6)
 
                 //TODO Sample 3 Pick
                                      //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
@@ -124,13 +133,17 @@ public class Red_Sample_Safe extends LinearOpMode {
                 .waitSeconds(0.2)  //0.3 seconds
                 //TODO Sample 3 Drop
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-52,-51), Math.toRadians(45))
+
+                //TODO ALIGN BASKET BEFORE DROPING AND THEN TAKING BOT TOWARDS BASKET      //
+                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45),baseVelConstraint50)   //
+
+                .strafeToLinearHeading(new Vector2d(-53,-53), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4 )
+                .waitSeconds(0.6 )
                 .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
 
                 //TODO Parking
-                .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-24,-5), Math.toRadians(0));
 
         if (opModeInInit()) {
             telemetry.addLine("ROBOT INIT MODE");

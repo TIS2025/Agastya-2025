@@ -133,14 +133,15 @@ public class Red_Sample_1_plus_4 extends LinearOpMode {
                 //TODO Parking//Pick from Submersible
                 .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
-                .strafeToLinearHeading(new Vector2d(-28,-5), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-24,-5.001), Math.toRadians(0))
+//                .strafeToLinearHeading(new Vector2d(-28,-5), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-24,-5), Math.toRadians(0))
                 .stopAndAdd(() ->new PreSamplePickSeq(intake,shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-48,-5), Math.toRadians(0))
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-54,-53), Math.toRadians(45))
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
                 .waitSeconds(0.4 )
+                .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
 
 

@@ -162,7 +162,7 @@ public class Auto_Threading extends LinearOpMode {
                 .waitSeconds(0.4 )
                 .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
 
-        TrajectoryActionBuilder trajectoryAction2 = drive.actionBuilder(new Pose2d(-40,-5,0))
+        TrajectoryActionBuilder trajectoryAction2 = trajectoryAction.endTrajectory().fresh()
                 .stopAndAdd(()-> new SampleDropSeq(intake, shoulder, elbow))
                 .waitSeconds(0.4 )
                 .strafeToLinearHeading(new Vector2d(-50,-5), Math.toRadians(0))

@@ -64,7 +64,7 @@ public class Shoulder {
                 extendTo(Globals.shoulderInit,1); //extend to init
                 break;
              case DROP:
-                extendTo(Globals.shoulderDrop,1);
+                extendTo(Globals.shoulderDrop,2);
                 break;
             case PRE_INTAKE:
                 extendTo(Globals.shoulderPreIntake,1); //extend to pick
@@ -76,10 +76,10 @@ public class Shoulder {
                 extendTo(Globals.shoulderSafe,1);
                 break;
             case SPECI_PICK:
-                extendTo(Globals.specimenPick,6);
+                extendTo(Globals.specimenPick,8);
                 break;
             case SPECI_PRE_DROP:
-                extendTo(Globals.specimenPreDrop,6);
+                extendTo(Globals.specimenPreDrop,8);
                 break;
             case SPECI_DROP:
                 extendTo(Globals.highChamber,1);
@@ -98,21 +98,13 @@ public class Shoulder {
     }
 
 
-    public static void extendTo(int targetPosition,double multiplier) {
-
-        if (targetPosition >= Globals.upMax) {
-            targetPosition = Globals.upMax;
-        }
-        targetPos=targetPosition;
-        Shoulder.multiplier=multiplier;
 
 
-//        robot.shoulder.setTargetPosition(targetPosition);
+
+    //        robot.shoulder.setTargetPosition(targetPosition);
 //        robot.shoulder.setTargetPositionTolerance(10);
 //        robot.shoulder.setPower(directpower);
 //        robot.shoulder.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-    }
-
     public static void extendToInit(int targetPosition) {
 //        double powerInput = calculatePID(targetPosition);;
         if (targetPosition >= Globals.upMax) {
@@ -143,45 +135,21 @@ public class Shoulder {
             extendTo(newPosition,1);
         }
     }
+    public static void extendTo(int targetPosition,double multiplier) {
 
+        if (targetPosition >= Globals.upMax) {
+            targetPosition = Globals.upMax;
+        }
+        targetPos=targetPosition;
+        Shoulder.multiplier=multiplier;
 
-//    public static  calculatePID(int targetPosition) {
-//
-//        controller.setPID(kp, ki, kd);
-//        power = Range.clip(controller.calculate(robot.shoulder.getCurrentPosition(), targetPosition), -1, 1);
-//        robot.shoulder.setPower(power);
-////        return power;
-//    }
+    }
+
     public  void  calculatePID() {
-//        if (Globals.PID) {
             controller.setPID(multiplier*kp, ki, kd);
-            ff = mapCountsToCosine(1400) * ffmultiplier;
-            power = Range.clip(controller.calculate(robot.shoulder.getCurrentPosition(), targetPos), -1, 1);//here we will change shoulder to drive.leftFront
+            power = Range.clip(controller.calculate(robot.shoulder.getCurrentPosition(), targetPos), -1, 1);
             robot.shoulder.setPower(power);
 
-//        }
-//        else {
-//            robot.shoulder.setTargetPosition(targetPos);
-//            robot.shoulder.setTargetPositionTolerance(10);
-//            robot.shoulder.setPower(directpower);
-//            robot.shoulder.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-//        }
-//        if(robot.shoulder.getCurrentPosition()<500){
-//            robot.shoulder.setPower(0.3);
-//        }
-//        else {
-//            robot.shoulder.setPower(power);
-//        }
-
-        //        return power;
-    }
-    public double mapCountsToCosine(int maxCounts) {
-        encoderCounts = robot.shoulder.getCurrentPosition();
-        // Map encoder counts to angle in degrees (-90 to 90)
-        angle = ((double) encoderCounts / maxCounts) * 180 - 90;
-
-        // Calculate the cosine of the angle (convert to radians for Math.cos)
-        return Math.cos(Math.toRadians(angle));
     }
 
     public void resetShoulder() {
@@ -193,3 +161,20 @@ public class Shoulder {
 
 
 }
+
+//    public static  calculatePID(int targetPosition) {
+//
+//        controller.setPID(kp, ki, kd);
+//        power = Range.clip(controller.calculate(robot.shoulder.getCurrentPosition(), targetPosition), -1, 1);
+//        robot.shoulder.setPower(power);
+////        return power;
+//    }
+
+//public double mapCountsToCosine(int maxCounts) {
+//        encoderCounts = robot.shoulder.getCurrentPosition();
+//        // Map encoder counts to angle in degrees (-90 to 90)
+//        angle = ((double) encoderCounts / maxCounts) * 180 - 90;
+//
+//        // Calculate the cosine of the angle (convert to radians for Math.cos)
+//        return Math.cos(Math.toRadians(angle));
+//    }

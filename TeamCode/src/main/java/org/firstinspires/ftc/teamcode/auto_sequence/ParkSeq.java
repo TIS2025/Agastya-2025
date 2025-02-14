@@ -15,7 +15,7 @@ public class ParkSeq {
                         intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.OFF),
                         new ParallelAction(
                                 shoulder.ShoulderCommand(Shoulder.ShoulderState.INIT),
-                                elbow.ElbowCommand(Elbow.ElbowState.AFTER_DROP)
+                                elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
                         )
                 ));
     }
