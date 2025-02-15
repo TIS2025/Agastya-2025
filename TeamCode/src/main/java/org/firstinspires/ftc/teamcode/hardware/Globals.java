@@ -36,7 +36,7 @@ public class Globals {
     public static int elbowHome = 0;
     public static int elbowInit = 0;
     public static int elbowSafe = 200;
-    public static int elbowExtendHighBucket = 100;//200
+    public static int elbowExtendHighBucket = 150;//200
     public static int elbowExtendSamplePick = 1600;
     public static int elbowExtendSamplePrePick = 1200;//1200
     public static int elbowHighHang = -2500;
