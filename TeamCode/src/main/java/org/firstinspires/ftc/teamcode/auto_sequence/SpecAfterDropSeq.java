@@ -25,5 +25,21 @@ public class SpecAfterDropSeq {
                         elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
                 ));
     }
+    public SpecAfterDropSeq(IntakeSubsystem intake, Elbow elbow) {
+        Actions.runBlocking(
+                new SequentialAction(
+                        //intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.OFF),
+//                        intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.CLOSE),
+//                        new ParallelAction(
+//                                shoulder.ShoulderCommand(Shoulder.ShoulderState.AFTER_DROP),
+//                                elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP)
+//                        ),
+//                        new SleepAction(0.5),
+                        elbow.ElbowCommand(Elbow.ElbowState.AFTER_DROP),
+                        elbow.ElbowCommand(Elbow.ElbowState.SPECI_DROP),
+                        new SleepAction(0.2),
+                        intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.OPEN)
 
+                        ));
+    }
 }

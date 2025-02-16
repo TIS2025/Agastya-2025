@@ -79,7 +79,7 @@ public class Shoulder {
                 extendTo(Globals.specimenPick,6);
                 break;
             case SPECI_PRE_DROP:
-                extendTo(Globals.specimenPreDrop,6);
+                extendTo(Globals.specimenPreDrop,5);
                 break;
             case SPECI_DROP:
                 extendTo(Globals.highChamber,1);

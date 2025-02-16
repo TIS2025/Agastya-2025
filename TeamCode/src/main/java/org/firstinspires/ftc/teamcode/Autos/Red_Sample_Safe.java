@@ -51,12 +51,17 @@ public class Red_Sample_Safe extends LinearOpMode {
     //TODO TESTING PROFILE ACCELERATION
     VelConstraint baseVelConstraint = new MinVelConstraint(Arrays.asList(
             new TranslationalVelConstraint(30.0),
-            new AngularVelConstraint(Math.PI / 2)
+            new AngularVelConstraint(Math.PI / 4)
     ));
 
     VelConstraint baseVelConstraint50 = new MinVelConstraint(Arrays.asList(
             new TranslationalVelConstraint(50.0),
-            new AngularVelConstraint(Math.PI / 2)
+            new AngularVelConstraint(Math.PI / 4)
+    ));
+
+    VelConstraint baseVelConstraint80 = new MinVelConstraint(Arrays.asList(
+            new TranslationalVelConstraint(80.0),
+            new AngularVelConstraint(Math.PI / 4)
     ));
 
 
