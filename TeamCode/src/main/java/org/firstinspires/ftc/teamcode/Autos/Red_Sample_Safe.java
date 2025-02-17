@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.Autos;
 
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.AccelConstraint;
 import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
@@ -63,6 +65,9 @@ public class Red_Sample_Safe extends LinearOpMode {
             new TranslationalVelConstraint(80.0),
             new AngularVelConstraint(Math.PI / 4)
     ));
+
+    AccelConstraint baseAccelConstraint60 = new ProfileAccelConstraint(-30.0,60.0);
+
 
 
     @Override

@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.Arrays;
 
 @Config
-@Autonomous(name="Path Test Spline")
+@Autonomous(name="Path Test Spline 2+2")
 //@Deprecated
 public class PathTest extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
@@ -115,27 +115,31 @@ public class PathTest extends LinearOpMode {
 
 //                 .splineToConstantHeading(new Vector2d(48,-42),Math.toRadians(270))
                 //TODO Slide Sample 1 into  OBV Zone
-                .splineToLinearHeading((new Pose2d(48,-54,Math.toRadians(270))),Math.toRadians(270))
+                .splineToLinearHeading((new Pose2d(48,-56,Math.toRadians(270))),Math.toRadians(270))
                 .splineToLinearHeading((new Pose2d(48,-22,Math.toRadians(270))),Math.toRadians(90))
 //
 //                //TODO Slide Sample 2 into  OBV Zone
-                .splineToLinearHeading(new Pose2d(58,-14,Math.toRadians(270)),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(58,-12,Math.toRadians(270)),Math.toRadians(270))
 
                 //TODO Sample 1 Pick
                 .stopAndAdd(() -> new SpecPickSeq(intake, shoulder,elbow))
                 .splineToLinearHeading(new Pose2d(58,-61, Math.toRadians(270)),Math.toRadians(270))
+//                .waitSeconds(0.2)
                 .stopAndAdd(() -> new SpecDropSeq(intake, shoulder,elbow))
 
                 //TODO Sample 1 Score
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(8,-34,Math.toRadians(90)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(10,-34,Math.toRadians(90)),Math.toRadians(90))
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake,elbow))
 
                 //TODO Sample 2 Pick
                 .afterTime(0.5,()->new SpecPickSeq(intake, shoulder,elbow))
 //                .stopAndAdd(()->new SpecPickSeq(intake, shoulder,elbow))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(36,-61,Math.toRadians(270)),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(38,-58,Math.toRadians(270)),Math.toRadians(270))
+
+                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(270)),Math.toRadians(270))
+//                .waitSeconds(0.2)
                 .stopAndAdd(() -> new SpecDropSeq(intake, shoulder,elbow))
 
                 //TODO Sample 2 Score
@@ -147,17 +151,21 @@ public class PathTest extends LinearOpMode {
                 .afterTime(0.5,()->new SpecPickSeq(intake, shoulder,elbow))
 //                .stopAndAdd(()->new SpecPickSeq(intake, shoulder,elbow))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(36,-61,Math.toRadians(270)),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(38,-58,Math.toRadians(270)),Math.toRadians(270))
+
+                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(270)),Math.toRadians(270))
+//                .waitSeconds(0.2)
                 .stopAndAdd(() -> new SpecDropSeq(intake, shoulder,elbow))
 
                 //TODO Sample 3 Score
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(0,-34,Math.toRadians(90)),Math.toRadians(90))
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake,elbow))
-                .afterTime(0.5,()->new SpecInitSeq(intake, shoulder,elbow))
+                .afterTime(0.6,()->new SpecInitSeq(intake, shoulder,elbow))
 
+                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(90)),Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(38, -58), Math.toRadians(270))
+//                .strafeToLinearHeading(new Vector2d(36, -64), Math.toRadians(90),baseVelConstraint80,baseAccelConstraint60)
 
                 .build();
 

@@ -45,7 +45,7 @@ public class Globals {
     public static int elbowSpeciDrop = 450;
     public static int elbowAfterDrop = 200;//455;//500;
     public static int elbowHighHangDone = -600;
-    public static int elbowPreHang = 700;
+    public static int elbowPreHang = 710;//700
     public static int elbowHang = 0;
     public static int elbowMax = -4300;
 
@@ -58,9 +58,9 @@ public class Globals {
 
     //TODO======================================================== INTAKE GRIPPER ====================================================
 
-    public static double GRIP_INIT=0.8;
-    public static double GRIP_OPEN=0.75;
-    public static double GRIP_CLOSE=0.38;
+    public static double GRIP_INIT=1;
+    public static double GRIP_OPEN=1;
+    public static double GRIP_CLOSE=0.48;
 
 
     public static double incr = 0.01;
