@@ -39,7 +39,7 @@ import java.util.Arrays;
 //@Disabled
 
 @Config
-@Autonomous(name="Red Sample 1+4 Thread Test")
+@Autonomous(name="Red Sample 1+4 Thread Test🔴")
 //@Deprecated
 public class Auto_Threading extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
@@ -166,14 +166,15 @@ public class Auto_Threading extends LinearOpMode {
         TrajectoryActionBuilder trajectory1 = trajectoryAction.endTrajectory().fresh()
                 .strafeToLinearHeading(new Vector2d(-42,-5), Math.toRadians(0))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
-                .strafeToLinearHeading(new Vector2d(-30,-5),Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-28,-5),Math.toRadians(0));
 
         //TODO 2nd Try for 4th Sample Pick from Submersible
         TrajectoryActionBuilder trajectory2 = trajectory1.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-24,-5), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-22,-5), Math.toRadians(0));
 
         //TODO Drop Sample into Basket and Parking
         TrajectoryActionBuilder trajectory3 = trajectory2.endTrajectory().fresh()
+                .stopAndAdd(() -> new PreSamplePickSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-45,-5), Math.toRadians(0))
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
                 .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
@@ -186,6 +187,7 @@ public class Auto_Threading extends LinearOpMode {
         //TODO Drop Wrong Sample and Park
         TrajectoryActionBuilder trajectory4 = trajectory2.endTrajectory().fresh()
 //                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
+                .stopAndAdd(() -> new PreSamplePickSeq(intake, shoulder,elbow))
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
                 .waitSeconds(0.5 )
                 .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
