@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -30,7 +31,8 @@ import org.firstinspires.ftc.teamcode.subsystem.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 
 import java.util.Arrays;
-
+@Deprecated
+@Disabled
 @Config
 @Autonomous(name="Red Sample 1+4")
 //@Deprecated
@@ -70,7 +72,7 @@ public class Red_Sample_1_plus_4 extends LinearOpMode {
         //TODO ===============================================TRAJECTORIES =============================================================
 
 
-        TrajectoryActionBuilder trajectoryAction = drive.actionBuilder(startPose)
+        TrajectoryActionBuilder trajectoryAction = drive.actionBuilder(new Pose2d(-32, -64, Math.toRadians(0)))
                 //TODO Preload Sample Drop
 
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))

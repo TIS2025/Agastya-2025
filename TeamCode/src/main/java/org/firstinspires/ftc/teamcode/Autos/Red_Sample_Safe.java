@@ -58,12 +58,12 @@ public class Red_Sample_Safe extends LinearOpMode {
 
     VelConstraint baseVelConstraint50 = new MinVelConstraint(Arrays.asList(
             new TranslationalVelConstraint(50.0),
-            new AngularVelConstraint(Math.PI / 4)
+            new AngularVelConstraint(Math.PI / 3)
     ));
 
     VelConstraint baseVelConstraint80 = new MinVelConstraint(Arrays.asList(
             new TranslationalVelConstraint(80.0),
-            new AngularVelConstraint(Math.PI / 4)
+            new AngularVelConstraint(Math.PI)
     ));
 
     AccelConstraint baseAccelConstraint60 = new ProfileAccelConstraint(-30.0,60.0);
@@ -86,7 +86,8 @@ public class Red_Sample_Safe extends LinearOpMode {
         //TODO ===============================================TRAJECTORIES =============================================================
 
 
-        TrajectoryActionBuilder trajectoryAction = drive.actionBuilder(startPose)
+        TrajectoryActionBuilder trajectoryAction = drive.actionBuilder(new Pose2d(-32, -64, Math.toRadians(0)))
+
                 //TODO Preload Sample Drop
 
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))

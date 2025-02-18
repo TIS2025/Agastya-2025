@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.Arrays;
 
 @Config
-@Autonomous(name="Path Test Spline 2+2")
+@Autonomous(name="Specimen Spline 2+2 🔴 Path Test")
 //@Deprecated
 public class PathTest extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();

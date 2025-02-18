@@ -2,12 +2,17 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -31,8 +36,8 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name="AG")
-public class Teleop extends LinearOpMode {
+@TeleOp(name="AG Teleop Blue 🔵")
+public class Teleop_Blue extends LinearOpMode {
     private final RobotHardware robot = RobotHardware.getInstance();
     private IntakeSubsystem intake;
     private Elbow elbow;
@@ -41,11 +46,11 @@ public class Teleop extends LinearOpMode {
     public double botHeading;
     public boolean count = true;
 
-   public double angle;
+    public double angle;
     public int encoderCounts;
     public double multiplier=0.6;
     public double strafe = 1, speed = 0.9, turn = 0.9;
-    public double ThresholdDistance = 7;
+    public double ThresholdDistance = 6.5;
     public static boolean upFlag = false;
     public static boolean initFlag = false;
     public static boolean pickingFlag = false;
@@ -56,6 +61,10 @@ public class Teleop extends LinearOpMode {
     public static boolean isPicked = false;
 
     public static List<Action> runningActions = new ArrayList<>();
+
+    private boolean detectionFlag = false;
+    private boolean colorFlag = false;
+    private boolean gripFlag = false;
 
     public static int lifterPos=0;
     @Override
@@ -78,9 +87,14 @@ public class Teleop extends LinearOpMode {
         drive.setDrivePowers(
                 new PoseVelocity2d(
                         new Vector2d(Math.pow(Range.clip(-gamepad1.left_stick_y * speed , -1, 1), 3),
-                                     Math.pow(Range.clip(-gamepad1.left_stick_x * strafe , -1, 1), 3)),
-                                     Math.pow(Range.clip(-gamepad1.right_stick_x * turn, -1, 1), 3))
+                                Math.pow(Range.clip(-gamepad1.left_stick_x * strafe , -1, 1), 3)),
+                        Math.pow(Range.clip(-gamepad1.right_stick_x * turn, -1, 1), 3))
         );
+
+        NormalizedRGBA rgba;
+        float[] hsv;
+        double distance;
+        robot.colorSensor.setGain((float) Globals.Gain);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -97,8 +111,8 @@ public class Teleop extends LinearOpMode {
 
         // TODO =============================================== INIT===========================================================
         while (opModeInInit()) {
-          shoulder.extendTo(0,1);
-          elbow.extendTo(0);
+            shoulder.extendTo(0,1);
+            elbow.extendTo(0);
         }
         robot.resetEncoder();
         waitForStart();
@@ -121,27 +135,86 @@ public class Teleop extends LinearOpMode {
             if (gamepad1.a) {
                 runningActions.add(SamplePickSeq.PreSamplePickAction(intake, elbow, shoulder));
             }
+            //TODO Color detection --> Do Not Change
+            rgba = robot.colorSensor.getNormalizedColors();
+            distance = robot.colorSensor.getDistance(DistanceUnit.MM);
+            hsv = rgbToHsv(rgba.red, rgba.green, rgba.blue);
 
-            // TODO =============================================== SAMPLE PICK ===========================================================
-            if (gamepad1.x) {
+            // TODO HSV RED
+//            if (((hsv[0] < 26) && (hsv[0] > 18) && distance < 15)) {
 
-                isPicking = true;
-//                slowFlag = true;
-                runningActions.add(SamplePickSeq.PickAction(intake, elbow, shoulder));
-
+                if (((hsv[0] < 59) && (hsv[0] > 18) && distance < 15)) {
+                Globals.intakeItem = 1;
             }
-            if (count){
-                mapCountsToCosine(1400);
 
+            //TODO HSV YELLOW
+//          else if (((hsv[0] < 80) && (hsv[0] > 55) && (hsv[2] > 0.95)  && distance < 15)) {
+
+            else if (((hsv[0] < 85) && (hsv[0] > 59.8) && (hsv[2] > 0.95)  && distance < 15)) {
+                Globals.intakeItem = 2;
             }
+
+            // TODO HSV BLUE
+//          else if (((hsv[0] < 235) && (hsv[0] > 210) && distance < 15)) {
+
+            else if (((hsv[0] < 225) && (hsv[0] > 185) && distance < 15)) {
+                Globals.intakeItem = 3;
+            }
+            else {
+                Globals.intakeItem = 0;
+            }
+
+            //TODO: Color Detection Logic
+            if(detectionFlag ) {
+                if (Globals.intakeItem == 3 || Globals.intakeItem == 2) {
+                    Actions.runBlocking(
+                            new SequentialAction(
+                                    intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.OFF),
+                                    shoulder.ShoulderCommand(Shoulder.ShoulderState.PRE_INTAKE),//300
+                                    elbow.ElbowCommand(Elbow.ElbowState.SAMPLE_PRE_PICK)
+                            )
+                    );
+                    detectionFlag = false;
+                    colorFlag = true;
+                }
+                else if (Globals.intakeItem ==1){
+                    Actions.runBlocking(
+                            new SequentialAction(
+//                                    new ParallelAction(
+//                                            shoulder.ShoulderCommand(Shoulder.ShoulderState.PRE_INTAKE),
+//                                            elbow.ElbowCommand(Elbow.ElbowState.SAMPLE_PRE_PICK)
+//                                    ),
+                                    intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.RELEASE),
+                                    new SleepAction(0.5),
+//                                    new ParallelAction(
+//                                            shoulder.ShoulderCommand(Shoulder.ShoulderState.INTAKE),//300
+//                                            elbow.ElbowCommand(Elbow.ElbowState.SAMPLE_PICK)//1550
+//                                    )
+                                    intake.IntakeRollerCommands(IntakeSubsystem.IntakeRollerState.ON)
+                                    )
+                    );
+
+                }
+//                detectionFlag = false;
+            }
+
             if (isPicking) {
                 if (robot.colorSensor.getDistance(DistanceUnit.MM) < ThresholdDistance) {
                     runningActions.add(SamplePickSeq.PreSamplePickAction(intake, elbow, shoulder));
                     isPicking = false;
-                    isPicked= true;
-                    slowFlag = false;
+//                    isPicked= true;
+//                    slowFlag = false;
                 }
             }
+
+            // TODO =============================================== SAMPLE PICK ===========================================================
+            if (gamepad1.x) {
+                detectionFlag = true;
+//                isPicking = true;
+//                slowFlag = true;
+                runningActions.add(SamplePickSeq.PickAction(intake, elbow, shoulder));
+            }
+
             if (gamepad1.left_bumper) {
 //                upFlag = true;
                 runningActions.add(SampleDropSeq.PreSampleDropHighAction(intake,elbow,shoulder));
@@ -156,7 +229,6 @@ public class Teleop extends LinearOpMode {
             // TODO =============================================== INIT===========================================================
 
             if (gamepad1.right_bumper) {
-//                upFlag = false;
                 runningActions.add(InitSeq.InitAction(intake, elbow, shoulder));
             }
             // TODO =============================================== SPECIMEN===========================================================
@@ -190,19 +262,6 @@ public class Teleop extends LinearOpMode {
             if (gamepad2.left_trigger > 0.5) {
                 Shoulder.elevatorDecrement(30);
             }
-
-
-
-
-
-
-
-//            if (upFlag) {
-//                runningActions.add(SampleDropSeq.PreSampleDropHighAction(intake, elbow, shoulder));
-//            }
-
-
-
 
             // TODO ===============================================Field Oriented Drive  ===========================================================
 
@@ -260,6 +319,19 @@ public class Teleop extends LinearOpMode {
 
 
 //            telemetry.addData("Power",Shoulder.power+Shoulder.ff);
+            telemetry.addData("ItemState", Globals.intakeItem);
+            telemetry.addData("DetectionFlag", detectionFlag);
+            telemetry.addData("ColorFlag", colorFlag);
+
+            telemetry.addData("RGB",rgba);
+            telemetry.addData("Distance",distance);
+
+            telemetry.addLine()
+                    .addData("HUE",hsv[0])
+                    .addData("Saturation", hsv[1])
+                    .addData("Value", hsv[2]);
+
+
             telemetry.addData("Kp", Shoulder.multiplier*Shoulder.kp);
             telemetry.addData("PID", Globals.SpecimenMode);
             telemetry.addData("Shoulder Current : ", robot.shoulder.getCurrent(CurrentUnit.AMPS));
@@ -282,8 +354,6 @@ public class Teleop extends LinearOpMode {
             telemetry.addData(" Shoulder Error : ", shoulder.controller.getPositionError());
 
             telemetry.addLine("---------------------------");
-
-            telemetry.addData("Threshold",robot.colorSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("isPicking",isPicking);
             telemetry.addLine("---------------------------");
             telemetry.addData("x", drive.pose.position.x);
@@ -298,7 +368,33 @@ public class Teleop extends LinearOpMode {
     }
 
 
+    public float[] rgbToHsv(float rNorm, float gNorm, float bNorm) {
+        float[] hsv = new float[3];
 
+        float max = Math.max(rNorm, Math.max(gNorm, bNorm));
+        float min = Math.min(rNorm, Math.min(gNorm, bNorm));
+        float delta = max - min;
+        // Value
+        hsv[2] = max;
+
+        // Saturation
+        hsv[1] = max == 0 ? 0 : delta / max;
+
+        // Hue
+        if (delta == 0) {
+            hsv[0] = 0;
+        } else {
+            if (max == rNorm) {
+                hsv[0] = (60 * ((gNorm - bNorm) / delta) + 360) % 360;
+            } else if (max == gNorm) {
+                hsv[0] = (60 * ((bNorm - rNorm) / delta) + 120) % 360;
+            } else if (max == bNorm) {
+                hsv[0] = (60 * ((rNorm - gNorm) / delta) + 240) % 360;
+            }
+        }
+
+        return hsv;
+    }
 
 
 

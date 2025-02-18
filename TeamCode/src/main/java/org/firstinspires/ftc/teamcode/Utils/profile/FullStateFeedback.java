@@ -16,12 +16,12 @@ public class FullStateFeedback
     ElapsedTime timer = new ElapsedTime();
     double k1,k2;
     double vel, prevPos;
-    /**@param k1 Positional gain
-     * @param k2 Velocity gain*/
+    /**@param k1 Positional Gain
+     * @param k2 Velocity Gain*/
     public FullStateFeedback(double k1, double k2)
     {
-        this.k1 = k1; // Positional gain
-        this.k2 = k2; // Velocity gain
+        this.k1 = k1; // Positional Gain
+        this.k2 = k2; // Velocity Gain
     }
     public double update(double target, double position, double targetVel)
     {
@@ -49,8 +49,8 @@ public class FullStateFeedback
     }
     public void setGains(double k1, double k2)
     {
-        this.k1 = k1; // Positional gain
-        this.k2 = k2; // Velocity gain
+        this.k1 = k1; // Positional Gain
+        this.k2 = k2; // Velocity Gain
     }
 
 }

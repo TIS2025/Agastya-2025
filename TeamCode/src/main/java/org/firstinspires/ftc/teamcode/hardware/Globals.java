@@ -7,7 +7,7 @@ public class Globals {
 
 
    public static boolean Is_Thread=false;
- public static double gain = 50.0;
+ public static double Gain = 50.0;
  public static int intakeItem = 0;
 
     //TODO======================================================== INTAKE SHOULDER ====================================================

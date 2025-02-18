@@ -22,7 +22,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Sequence.InitSeq;
-import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.auto_sequence.ParkSeq;
 import org.firstinspires.ftc.teamcode.auto_sequence.PreSampleDropSeq;
 import org.firstinspires.ftc.teamcode.auto_sequence.PreSamplePickSeq;
@@ -36,8 +35,8 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 
 import java.util.Arrays;
 
-@Deprecated
-@Disabled
+//@Deprecated
+//@Disabled
 
 @Config
 @Autonomous(name="Red Sample 1+4 Thread Test")
@@ -59,6 +58,12 @@ public class Auto_Threading extends LinearOpMode {
     VelConstraint baseVelConstraint = new MinVelConstraint(Arrays.asList(
             new TranslationalVelConstraint(30.0),
             new AngularVelConstraint(Math.PI / 4)
+    ));
+
+
+    VelConstraint baseVelConstraint50 = new MinVelConstraint(Arrays.asList(
+            new TranslationalVelConstraint(50.0),
+            new AngularVelConstraint(Math.PI / 2)
     ));
 
 
@@ -88,32 +93,35 @@ public class Auto_Threading extends LinearOpMode {
         //TODO ===============================================TRAJECTORIES =============================================================
 
 
-        TrajectoryActionBuilder trajectoryAction = drive.actionBuilder(startPose)
+        TrajectoryActionBuilder trajectoryAction =
+
+                drive.actionBuilder(new Pose2d(-32, -64, Math.toRadians(0)))
+
                 //TODO Preload Sample Drop
 
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-56,-56), Math.toRadians(45))
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
+                .waitSeconds(0.8)
 
                 //TODO Sample 1 Pick
                 //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
-                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
+                .stopAndAdd(() ->new SamplePickSeq(intake , elbow, shoulder))//RECALL
                 .strafeToLinearHeading(new Vector2d(-18,-34), Math.toRadians(165))
                 //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))//RECALL
 //                .waitSeconds(0.4)
                 //.stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
-//                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
+                .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))//RECALL
 
                 .strafeToLinearHeading(new Vector2d(-24,-34), Math.toRadians(163),baseVelConstraint)
                 .waitSeconds(0.2)  //0.3 seconds
                 //TODO Sample 1 Drop
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45),baseVelConstraint50)
 
-                .strafeToLinearHeading(new Vector2d(-55,-53), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
+                .waitSeconds(0.6)
 
                 //TODO Sample 2 Pick
                 //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
@@ -126,9 +134,13 @@ public class Auto_Threading extends LinearOpMode {
                 .waitSeconds(0.2)  //0.3 seconds
                 //TODO Sample 2 Drop
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-53,-51), Math.toRadians(45))
+
+                //TODO ALIGN BASKET BEFORE DROPING AND THEN TAKING BOT TOWARDS BASKET   //
+                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45),baseVelConstraint50) //
+
+                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
+                .waitSeconds(0.6)
 
                 //TODO Sample 3 Pick
                 //.stopAndAdd(() ->new PreSamplePickSeq(intake, shoulder, elbow))
@@ -141,72 +153,82 @@ public class Auto_Threading extends LinearOpMode {
                 .waitSeconds(0.2)  //0.3 seconds
                 //TODO Sample 3 Drop
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-52,-51), Math.toRadians(45))
+
+                //TODO ALIGN BASKET BEFORE DROPING AND THEN TAKING BOT TOWARDS BASKET      //
+                .strafeToLinearHeading(new Vector2d(-48,-45), Math.toRadians(45),baseVelConstraint50)   //
+
+                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4)
-                .strafeToLinearHeading(new Vector2d(-50,-45), Math.toRadians(45))
+                .waitSeconds(0.6 )
+                .stopAndAdd(() ->new PreSamplePickSeq(intake,shoulder,elbow));
 
-                .stopAndAdd(() ->new PreSamplePickSeq(intake,shoulder,elbow))
-
-                //TODO Parking//Pick from Submersible
-                .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
+        //TODO 4th sample picking from Submersible
+        TrajectoryActionBuilder trajectory1 = trajectoryAction.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-42,-5), Math.toRadians(0))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
-                .strafeToLinearHeading(new Vector2d(-35,-5), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-24,-5.001), Math.toRadians(0))
-                ;
+                .strafeToLinearHeading(new Vector2d(-30,-5),Math.toRadians(0));
 
-        TrajectoryActionBuilder trajectoryAction1 = trajectoryAction.endTrajectory().fresh()
+        //TODO 2nd Try for 4th Sample Pick from Submersible
+        TrajectoryActionBuilder trajectory2 = trajectory1.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-24,-5), Math.toRadians(0));
 
-                .strafeToLinearHeading(new Vector2d(-24,-5.001), Math.toRadians(0))
-                .stopAndAdd(() ->new PreSamplePickSeq(intake,shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-48,-5), Math.toRadians(0))
+        //TODO Drop Sample into Basket and Parking
+        TrajectoryActionBuilder trajectory3 = trajectory2.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-45,-5), Math.toRadians(0))
                 .stopAndAdd(() -> new PreSampleDropSeq(intake, shoulder,elbow))
-                .strafeToLinearHeading(new Vector2d(-52,-51), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
                 .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4 )
+                .waitSeconds(0.6 )
+                .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
+                //TODO Parking
                 .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
 
-        TrajectoryActionBuilder trajectoryAction2 = trajectoryAction.endTrajectory().fresh()
-                .stopAndAdd(()-> new SampleDropSeq(intake, shoulder, elbow))
-                .waitSeconds(0.4 )
-                .strafeToLinearHeading(new Vector2d(-50,-5), Math.toRadians(0))
-                .stopAndAdd(()-> new ParkSeq(intake, shoulder, elbow))
+        //TODO Drop Wrong Sample and Park
+        TrajectoryActionBuilder trajectory4 = trajectory2.endTrajectory().fresh()
+//                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
+                .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
+                .waitSeconds(0.5 )
                 .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
+                .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
+                //TODO Parking
+                .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
 
-                ;
+        //TODO Strafe and Retry Sample
+        TrajectoryActionBuilder trajectory5 = trajectory2.endTrajectory().fresh()
+                .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-40,-12), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-33,-12),Math.toRadians(0));
 
+
+
+
+
+
+
+
+
+        //TODO Color Sensor Setup
 
         final NormalizedRGBA[] rgba = new NormalizedRGBA[1];
         final float[][] hsv = new float[1][1];
         final double[] distance = new double[1];
-        robot.colorSensor.setGain((float) Globals.gain);
-
-
-
-
-
-
+        robot.colorSensor.setGain((float) Globals.Gain);
 
         if (opModeInInit()) {
             telemetry.addLine("ROBOT INIT MODE");
             Actions.runBlocking(new SequentialAction(
                     new InstantAction(() ->  InitSeq.InitAction(intake, elbow, shoulder))
             ));
-            sample1 = true;
-            sample2 = true;
-            sample3 = true;
-            sample4 = true;
-
         }
 
 
         waitForStart();
         //pidThread.start();
 
-        Actions.runBlocking(
-                new SequentialAction(
-                        trajectoryAction.build()
-                ));
+//        Actions.runBlocking(
+//                new SequentialAction(
+//                        trajectoryAction.build()
+//                ));
         Thread sensorMonitor = new Thread(() -> {
             while (opModeIsActive()) {
 
@@ -216,22 +238,25 @@ public class Auto_Threading extends LinearOpMode {
                 hsv[0] = rgbToHsv(rgba[0].red, rgba[0].green, rgba[0].blue);
 
                 // TODO HSV RED
-                if (((hsv[0][0] < 26) && (hsv[0][0] > 18) && distance[0] < 30)) {
-                    Globals.intakeItem = 2;
-                }
-
-                //TODO HSV YELLOW
-                else if (((hsv[0][0] < 80) && (hsv[0][0] > 55) && (hsv[0][2] > 0.95) && distance[0] < 30)) {
+                if (((hsv[0][0] < 59) && (hsv[0][0] > 18) && distance[0] < 15)) {
                     Globals.intakeItem = 1;
                 }
 
+                //TODO HSV YELLOW
+                else if (((hsv[0][0] < 85) && (hsv[0][0] > 59.8) && (hsv[0][2] > 0.95) && distance[0] < 15)) {
+                    Globals.intakeItem = 2;
+                }
+
                 //TODO: Blue
-                else if (((hsv[0][0] < 235) && (hsv[0][0] > 210) && distance[0] < 30)) {
+                else if (((hsv[0][0] < 235) && (hsv[0][0] > 185) && distance[0] < 30)) {
                     Globals.intakeItem = 3;
                 }
                 else {
                     Globals.intakeItem = 0;
                 }
+
+                telemetry.addData("State",sample_state);
+                telemetry.addData("Item State",Globals.intakeItem);
 
                 telemetry.update();
 
@@ -241,7 +266,6 @@ public class Auto_Threading extends LinearOpMode {
 
         //TODO *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-        sensorMonitor.start();
         //TODO - Preload Droping and 3 Sample Pick and Drop
         if(sample_state==0){
             Actions.runBlocking(
@@ -251,30 +275,122 @@ public class Auto_Threading extends LinearOpMode {
             );
             sample_state=1;
         }
+        //TODO 4th sample picking from Submersible
+        if(sample_state == 1){
+            Actions.runBlocking(
+                    new SequentialAction(
+                            trajectory1.build()
+                    )
+            );
+            sample_state=2;
+        }
 
+        sensorMonitor.start();
         //TODO - 1St Sample Picking
         timer.reset();
         timer.startTime();
-        while( sample_state==1){
-
-            if (Globals.intakeItem == 1 && Globals.intakeItem == 2) {
-                Actions.runBlocking(
-                        new SequentialAction(
-                                trajectoryAction1.build()
-                        )
-                );
-            } else if (timer.seconds() > 0.5 && timer.seconds() < 2 && Globals.intakeItem ==0) {
-                Actions.runBlocking(
-                        new SequentialAction(
-                                trajectoryAction2.build()
-                        )
-                );
-
+        while(sample_state==2){
+            //TODO Red and Yellow
+            if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
+                sample_state = 5;  //Drop Sample into Basket Trajectory
+            }
+            // TODO Blue
+            else if (Globals.intakeItem == 3) {
+                sample_state = 6;  //Drop Wrong Sample and Park
+            }
+            else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem ==0) {
+                sample_state =  3;
                 timer.reset();
             }
         }
 
-        
+        //TODO 2nd Try for 4th Sample Pick from Submersible
+        if(sample_state == 3){
+            Actions.runBlocking(
+                    new SequentialAction(
+                            trajectory2.build()
+                    )
+            );
+            sample_state=4;
+        }
+        //TODO Drop Sample into Basket and Parking
+        if(sample_state == 5){
+            Actions.runBlocking(
+                    new SequentialAction(
+                            trajectory3.build()
+                    )
+            );
+            sample_state=12;
+        }
+        //TODO Drop Wrong Sample and Park
+        if(sample_state == 6){
+            Actions.runBlocking(
+                    new SequentialAction(
+                            trajectory4.build()
+                    )
+            );
+            sample_state=12;
+
+        }
+
+        while(sample_state == 4){
+            //TODO Red and Yellow
+            if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
+                sample_state = 5;  //Drop Sample into Basket Trajectory
+            }
+            // TODO Blue
+            else if (Globals.intakeItem == 3) {
+                sample_state = 6;  //Drop Wrong Sample and Park
+            }
+            else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem ==0) {
+                sample_state =  7;
+                timer.reset();
+            }
+        }
+
+        if(sample_state == 7){
+            Actions.runBlocking(
+                    new SequentialAction(
+                            trajectory5.build()
+                    )
+            );
+            sample_state=8;
+        }
+
+        while(sample_state == 8){
+            //TODO Red and Yellow
+            if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
+                sample_state = 9;  //Drop Sample into Basket Trajectory
+            }
+            // TODO Blue
+            else if (Globals.intakeItem == 3) {
+                sample_state = 10;  //Drop Wrong Sample and Park
+            }
+            else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem ==0) {
+                sample_state =  11;
+                timer.reset();
+            }
+        }
+
+
+
+
+        //TODO Parking
+
+//        if(sample_state == 7){
+//            Actions.runBlocking(
+//                    new SequentialAction(
+//                            trajectory5.build()
+//                    )
+//            );
+//
+//        }
+
+
+
+
+
+
 
 //         Stop the sensor thread after autonomous completes
         try {
