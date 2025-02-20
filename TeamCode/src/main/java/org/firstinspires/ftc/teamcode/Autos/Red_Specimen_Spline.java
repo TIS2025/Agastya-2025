@@ -33,7 +33,7 @@ import java.util.Arrays;
 @Config
 @Autonomous(name="Specimen Spline 2+2 🔴 Path Test")
 //@Deprecated
-public class PathTest extends LinearOpMode {
+public class Red_Specimen_Spline extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
     //Subsystems
     IntakeSubsystem intake ;

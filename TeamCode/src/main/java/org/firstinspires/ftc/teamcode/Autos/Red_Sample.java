@@ -32,9 +32,9 @@ import org.firstinspires.ftc.teamcode.subsystem.Shoulder;
 import java.util.Arrays;
 
 @Config
-@Autonomous(name="Red Sample 2+3")
-@Disabled
-@Deprecated
+@Autonomous(name="Red Sample 2+3 Alliance Dependent obv zone")
+//@Disabled
+//@Deprecated
 public class Red_Sample extends LinearOpMode {
     private RobotHardware robot = RobotHardware.getInstance();
     //Subsystems
