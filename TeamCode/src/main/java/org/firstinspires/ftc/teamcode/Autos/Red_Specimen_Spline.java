@@ -161,9 +161,9 @@ public class Red_Specimen_Spline extends LinearOpMode {
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(0,-34,Math.toRadians(90)),Math.toRadians(90))
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake,elbow))
-                .afterTime(0.6,()->new SpecInitSeq(intake, shoulder,elbow))
+                .afterTime(1,()->new SpecInitSeq(intake, shoulder,elbow))
 
-                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(90)),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(135)),Math.toRadians(270))
 
 //                .strafeToLinearHeading(new Vector2d(36, -64), Math.toRadians(90),baseVelConstraint80,baseAccelConstraint60)
 

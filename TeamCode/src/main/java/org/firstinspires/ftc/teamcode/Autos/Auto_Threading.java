@@ -164,7 +164,7 @@ public class Auto_Threading extends LinearOpMode {
 
         //TODO 4th sample picking from Submersible
         TrajectoryActionBuilder trajectory1 = trajectoryAction.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-42,-5), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
                 .strafeToLinearHeading(new Vector2d(-28,-5),Math.toRadians(0));
 
@@ -194,7 +194,7 @@ public class Auto_Threading extends LinearOpMode {
                 .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
                 //TODO Parking
                 .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
-
+       /////////////////////////////////////////////////////////////////////////////////
         //TODO Strafe and Retry Sample
         TrajectoryActionBuilder trajectory5 = trajectory2.endTrajectory().fresh()
                 .stopAndAdd(() -> new PreSamplePickSeq(intake, shoulder,elbow))
@@ -225,6 +225,17 @@ public class Auto_Threading extends LinearOpMode {
                 .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
                 //TODO Parking
                 .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
+      /////////////////////////////////////////////////////////////////////////////////////////
+//        //TODO Drop Wrong Sample and Park after Strafing
+//        TrajectoryActionBuilder trajectory10 = trajectory5.endTrajectory().fresh()
+////                .strafeToLinearHeading(new Vector2d(-55,-54), Math.toRadians(45),baseVelConstraint50)
+//                .stopAndAdd(() -> new PreSamplePickSeq(intake, shoulder,elbow))
+//                .stopAndAdd(() -> new SampleDropSeq(intake, shoulder, elbow))
+//                .waitSeconds(0.5 )
+//                .strafeToLinearHeading(new Vector2d(-40,-10), Math.toRadians(0))
+//                .stopAndAdd(() ->new ParkSeq(intake,shoulder,elbow))
+//                //TODO Parking
+//                .strafeToLinearHeading(new Vector2d(-25,-5), Math.toRadians(0));
 
 
 
@@ -293,129 +304,131 @@ public class Auto_Threading extends LinearOpMode {
         //TODO *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
         //TODO - Preload Droping and 3 Sample Pick and Drop
-        if(sample_state==0){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectoryAction.build()
-                    )
-            );
-            sample_state=1;
-        }
-        //TODO 4th sample picking from Submersible
-        if(sample_state == 1){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory1.build()
-                    )
-            );
-            sample_state=2;
-        }
+        if(opModeIsActive()) {
+            if (sample_state == 0) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectoryAction.build()
+                        )
+                );
+                sample_state = 1;
+            }
+            //TODO 4th sample picking from Submersible
+            if (sample_state == 1) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory1.build()
+                        )
+                );
+                sample_state = 2;
+            }
 
-        sensorMonitor.start();
-        //TODO - 1St Sample Picking
-        timer.reset();
-        timer.startTime();
-        while(sample_state==2){
-            //TODO Red and Yellow
-            if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
-                sample_state = 3;  //Drop Sample into Basket Trajectory
+            sensorMonitor.start();
+            //TODO - 1St Sample Picking
+            timer.reset();
+            timer.startTime();
+            while (sample_state == 2) {
+                //TODO Red and Yellow
+                if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
+                    sample_state = 3;  //Drop Sample into Basket Trajectory
+                }
+                // TODO Blue
+                else if (Globals.intakeItem == 3) {
+                    sample_state = 4;  //Drop Wrong Sample and Park
+                }
+                // TODO Retry Second Time
+                else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem == 0) {
+                    sample_state = 5;
+                    timer.reset();
+                }
             }
-            // TODO Blue
-            else if (Globals.intakeItem == 3) {
-                sample_state = 4;  //Drop Wrong Sample and Park
+            //TODO Drop Sample into Basket and Parking
+            if (sample_state == 3) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory3.build()
+                        )
+                );
+                sample_state = 14;
             }
-            // TODO Retry Second Time
-            else if (timer.seconds() > 1 && timer.seconds() < 1.5 && Globals.intakeItem ==0) {
-                sample_state =  5;
-                timer.reset();
-            }
-        }
-        //TODO Drop Sample into Basket and Parking
-        if(sample_state == 3){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory3.build()
-                    )
-            );
-            sample_state=14;
-        }
-        //TODO Drop Wrong Sample and Park
-        if(sample_state == 4){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory4.build()
-                    )
-            );
-            sample_state=14;
+            //TODO Drop Wrong Sample and Park
+            if (sample_state == 4) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory4.build()
+                        )
+                );
+                sample_state = 14;
 
-        }
-        //TODO 2nd Try for 4th Sample Pick from Submersible
-        if(sample_state == 5){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory2.build()
-                    )
-            );
-            sample_state=6;
-        }
-
-        while(sample_state == 6){
-            //TODO Red and Yellow
-            if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
-                sample_state = 7;  //Drop Sample into Basket Trajectory
             }
-            // TODO Blue
-            else if (Globals.intakeItem == 3) {
-                sample_state = 8;  //Drop Wrong Sample and Park
+            //TODO 2nd Try for 4th Sample Pick from Submersible
+            if (sample_state == 5) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory2.build()
+                        )
+                );
+                sample_state = 6;
+            }
+
+            while (sample_state == 6) {
+                //TODO Red and Yellow
+                if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
+                    sample_state = 7;  //Drop Sample into Basket Trajectory
+                }
+                // TODO Blue
+                else if (Globals.intakeItem == 3) {
+                    sample_state = 8;  //Drop Wrong Sample and Park
+                }
+                //TODO Retry Try by strafing
+                else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem == 0) {
+                    sample_state = 9;
+                    timer.reset();
+                }
             }
             //TODO Retry Try by strafing
-            else if (timer.seconds() > 1 && timer.seconds() < 1.5 && Globals.intakeItem ==0) {
-                sample_state =  9;
-                timer.reset();
+            if (sample_state == 9) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory5.build()
+                        )
+                );
+                sample_state = 10;
             }
-        }
-        //TODO Retry Try by strafing
-        if(sample_state == 9){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory5.build()
-                    )
-            );
-            sample_state=10;
-        }
 
-        while(sample_state == 10){
-            //TODO Red and Yellow
-            if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
-                sample_state = 11;  //Drop Sample into Basket Trajectory
+            while (sample_state == 10) {
+                //TODO Red and Yellow
+                if (Globals.intakeItem == 1 || Globals.intakeItem == 2) {
+                    sample_state = 11;  //Drop Sample into Basket Trajectory
+                }
+                // TODO Blue
+                else if (Globals.intakeItem == 3) {
+                    sample_state = 12;  //Drop Wrong Sample and Park
+                } else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem == 0)
+                {
+                    sample_state = 12;
+                    timer.reset();
+                }
             }
-            // TODO Blue
-            else if (Globals.intakeItem == 3) {
-                sample_state = 12;  //Drop Wrong Sample and Park
+            //TODO Drop Sample into Basket and Parking
+            if (sample_state == 11) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory6.build()
+                        )
+                );
+                sample_state = 14;
             }
-            else if (timer.seconds() > 1 && timer.seconds() < 2 && Globals.intakeItem ==0) {
-                sample_state =  13;
-                timer.reset();
-            }
-        }
-        //TODO Drop Sample into Basket and Parking
-        if(sample_state == 11){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory3.build()
-                    )
-            );
-            sample_state=14;
-        }
-        //TODO Drop Wrong Sample and Park
-        if(sample_state == 12){
-            Actions.runBlocking(
-                    new SequentialAction(
-                            trajectory4.build()
-                    )
-            );
-            sample_state=14;
+            //TODO Drop Wrong Sample and Park
+            if (sample_state == 12) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                trajectory7.build()
+                        )
+                );
+                sample_state = 14;
 
+            }
         }
 //         Stop the sensor thread after autonomous completes
 //        try {

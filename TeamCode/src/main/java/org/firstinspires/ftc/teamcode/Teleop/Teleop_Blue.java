@@ -111,8 +111,24 @@ public class Teleop_Blue extends LinearOpMode {
 
         // TODO =============================================== INIT===========================================================
         while (opModeInInit()) {
-            shoulder.extendTo(0,1);
-            elbow.extendTo(0);
+            shoulder.calculatePID();
+            elbow.calculatePID();
+
+            if(robot.elbow.getCurrentPosition()>1100)
+            {
+                shoulder.extendTo(260, 1);
+                elbow.extendTo(1200);
+//                robot.shoulder.setTargetPosition(Globals.shoulderPreIntake);
+//                robot.elbow.setTargetPosition(Globals.elbowExtendSamplePrePick);
+            }
+            else {
+                shoulder.extendTo(0, 1);
+                elbow.extendTo(0);
+            }
+
+            telemetry.addData(" Elbow POS : ", robot.elbow.getCurrentPosition());
+            telemetry.addData(" Shoulder POS : ", robot.shoulder.getCurrentPosition());
+            telemetry.update();
         }
         robot.resetEncoder();
         waitForStart();
