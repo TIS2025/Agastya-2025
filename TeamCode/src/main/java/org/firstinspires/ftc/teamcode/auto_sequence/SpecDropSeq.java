@@ -18,7 +18,7 @@ public class SpecDropSeq {
 //                        new SleepAction(0.1),
 
                         intake.IntakeGripperCommands(IntakeSubsystem.IntakeGripperState.CLOSE),
-                        new SleepAction(0.4),
+                        new SleepAction(0.2),
                         new ParallelAction(
                         shoulder.ShoulderCommand(Shoulder.ShoulderState.SPECI_PRE_DROP),
                         elbow.ElbowCommand(Elbow.ElbowState.SPECI_PRE_DROP)

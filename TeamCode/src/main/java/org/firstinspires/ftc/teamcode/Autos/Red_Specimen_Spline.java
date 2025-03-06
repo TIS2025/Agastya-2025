@@ -129,7 +129,7 @@ public class Red_Specimen_Spline extends LinearOpMode {
 
                 //TODO Sample 1 Score
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(10,-34,Math.toRadians(90)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(10,-33.50,Math.toRadians(90)),Math.toRadians(90))
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake,elbow))
 
                 //TODO Sample 2 Pick
@@ -144,7 +144,7 @@ public class Red_Specimen_Spline extends LinearOpMode {
 
                 //TODO Sample 2 Score
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(4,-34,Math.toRadians(90)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(4,-33.5,Math.toRadians(90)),Math.toRadians(90))
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake,elbow))
 
                 //TODO Sample 3 Pick
@@ -159,13 +159,13 @@ public class Red_Specimen_Spline extends LinearOpMode {
 
                 //TODO Sample 3 Score
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(0,-34,Math.toRadians(90)),Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(0,-33.5,Math.toRadians(90)),Math.toRadians(90))
                 .stopAndAdd(() -> new SpecAfterDropSeq(intake,elbow))
                 .afterTime(1,()->new SpecInitSeq(intake, shoulder,elbow))
 
-                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(135)),Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(38,-61,Math.toRadians(135)),Math.toRadians(270))
 
-//                .strafeToLinearHeading(new Vector2d(36, -64), Math.toRadians(90),baseVelConstraint80,baseAccelConstraint60)
+                .strafeToLinearHeading(new Vector2d(36, -60), Math.toRadians(90))
 
                 .build();
 

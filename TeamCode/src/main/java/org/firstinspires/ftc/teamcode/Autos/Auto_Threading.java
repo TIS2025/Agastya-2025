@@ -164,7 +164,7 @@ public class Auto_Threading extends LinearOpMode {
 
         //TODO 4th sample picking from Submersible
         TrajectoryActionBuilder trajectory1 = trajectoryAction.endTrajectory().fresh()
-                .strafeToLinearHeading(new Vector2d(-40,-5), Math.toRadians(0))
+                .strafeToLinearHeading(new Vector2d(-40 ,-5), Math.toRadians(0))
                 .stopAndAdd(() ->new SamplePickSeq(intake, elbow, shoulder))
                 .strafeToLinearHeading(new Vector2d(-28,-5),Math.toRadians(0));
 

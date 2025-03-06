@@ -16,7 +16,7 @@ public class Globals {
     public static int shoulderInit = 0;
     public static int shoulderDrop = 1150;
     public static int shoulderPreIntake = 260;
-    public static int shoulderIntake = 320;
+    public static int shoulderIntake = 350;//400;//320;
     public static int shoulderSafe = 15;
     public static int specimenPick =250;// 0;
     public static int specimenPreDrop =670;//660;
